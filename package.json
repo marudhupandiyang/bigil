@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "acron": "^1.0.5",
+    "estree-walker": "^1.0.0",
+    "htmlparser2": "^4.0.0"
+  }
 }
