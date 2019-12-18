@@ -3,14 +3,13 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <script>
-      var a = '1';
-      console.log(a);
-    
-console.log('Added by Bigil');
-</script>
+    <script>"use strict";
+
+var name = 'Marudhu';
+var a = '1';
+console.log(a);</script>
   </head>
   <body>
-    <h1>Hello!</h1>
+    <h1>Hello {name}!</h1>
   </body>
 </html>

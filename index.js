@@ -5,6 +5,9 @@ const DomUtils = require('htmlparser2').DomUtils;
 const jsparser = require('acron');
 const estreewalker = require('estree-walker');
 
+const processScript = require('./processScript');
+const processHTML = require('./processHTML');
+
 function readFile(filePath) {
   return fs.readFileSync(filePath, { encoding: 'utf8', flag: 'r' });
 }
@@ -21,13 +24,18 @@ function processScriptsInHTML(parsedContent) {
   console.log('Processing Scripts...!');
   const scriptTags = DomUtils.findAll(function (e) {
     if (e.tagName === 'script' && (!e.attribs['type'] || e.attribs['type'] == 'text/javascript')) {
-      if (e.children.length > 1) {
-        return console.log('Unknown. Script has more than 1 child!!');
-      }
-
-      e.children[0].data += "\nconsole.log('Added by Bigil');\n";
+      return true;
     }
+    return false;
   }, parsedContent);
+
+  scriptTags.forEach(function (e) {
+    if (e.children.length > 1) {
+      return console.log('Unknown. Script has more than 1 child!!');
+    }
+
+    e.children[0].data = processScript(e.children[0].data);
+  });
   return parsedContent;
 }
 
@@ -35,6 +43,7 @@ function processScriptsInHTML(parsedContent) {
 const fileToProcess = process.argv[2];
 const parsedContent = parseFile(fileToProcess);
 processScriptsInHTML(parsedContent);
+processHTML(parsedContent);
 
 const finalOutput = DomUtils.getOuterHTML(parsedContent);
 if (finalOutput) {
